@@ -17,32 +17,44 @@
 
 import { COLORS } from '../helpers/colors.ts';
 
+interface PalyerProps {
+  name: string;
+  score: number;
+  level: number;
+}
+
 // 1. Clase Player inmutable
 class Player {
   readonly name: string;
   readonly score: number;
   readonly level: number;
 
-  constructor(name: string, score: number, level: number) {
-    throw new Error('Method not implemented.');
+  constructor({ name, score, level }: PalyerProps) {
+    this.name = name;
+    this.score = score;
+    this.level = level;
   }
 
   // Método copyWith para crear una copia modificada del jugador
   copyWith({ name, score, level }: Partial<Player>): Player {
-    throw new Error('Method not implemented.');
+    return new Player({
+      name: name ?? this.name,
+      score: score ?? this.score,
+      level: level ?? this.level
+    });
   }
 
   displayState(): void {
     console.log(`\n%cJugador: ${this.name}`, COLORS.green);
     console.log(`%cPuntaje: ${this.score}`, COLORS.yellow);
-    console.log(`%cNivel: ${this.level}`, COLORS.blue);
+    console.log(`%cNivel: ${this.level}`, COLORS.violet);
   }
 }
 
 // 2. Código Cliente para probar
 function main() {
   // Crear jugador inicial
-  let player = new Player('Carlos', 0, 1);
+  let player = new Player({ name: 'Juan', score: 0, level: 1 });
   console.log('Estado inicial:');
   player.displayState();
 
