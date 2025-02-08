@@ -16,6 +16,7 @@
 
 import { COLORS } from '../helpers/colors.ts';
 
+
 function formatDate(date: Date): string {
   const year = date.getFullYear();
   const month = String(date.getMonth() + 1).padStart(2, '0'); // Meses empiezan desde 0
@@ -33,7 +34,22 @@ type LogLevel = 'info' | 'warn' | 'error';
 function createLogger(level: LogLevel) {
   // Retorna una función que recibe el "message" como argumento
   // Completar: implementar el logger con formato y color para cada nivel
-  throw new Error('Not implemented');
+  return function (msg: string) {
+    const timestamp = formatDate(new Date());
+    const message = {
+      info: `%c[INFO: ${ timestamp}] ${msg}`,
+      warn: `%c[WARNING: ${ timestamp}] ${msg}`,
+      error: `%c[ERROR: ${ timestamp}] ${msg}`
+    }
+
+    const colors = {
+      info: COLORS.gray,
+      warn: COLORS.orange,
+      error: COLORS.red
+    }
+
+    return console.log(message[level], colors[level])
+  }
 }
 
 // Ejemplo de uso
