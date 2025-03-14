@@ -33,9 +33,8 @@ abstract class BaseApprover implements Approver {
       this.nextApprover.approveRequest(amount);
       return;
     } 
-    
-    
-    console.log('Solicitud no pudo ser aprobada.');
+
+    console.log('%cRequest not approved', COLORS.red);
     
   }
 }
@@ -43,24 +42,32 @@ abstract class BaseApprover implements Approver {
 // 3. Clases Concretas de Aprobadores
 
 class Supervisor extends BaseApprover {
-  // TODO: Implementar el método approveRequest si el monto es menor o igual a 1000
-  // TODO: Si el monto es mayor a 1000, pasar la solicitud al siguiente aprobador
   override approveRequest(amount: number): void {
-    throw new Error('Method not implemented.');
+    if (amount <= 1000) {
+      console.log(`%c${amount} approved by the %csupervisor`, COLORS.green, COLORS.blue);
+    } else {
+      console.log('%cSupervisor %cis passing request to the next approver', COLORS.blue, COLORS.orange);
+      this.next(amount);
+    }
   }
 }
 
 class Manager extends BaseApprover {
-  //TODO: Implementar el método approveRequest si el monto es menor o igual a 5000
-  // TODO: Si el monto es mayor a 5000, pasar la solicitud al siguiente aprobador
 
   override approveRequest(amount: number): void {
-    throw new Error('Method not implemented.');
+    if (amount <= 5000) {
+      console.log(`%c${amount} approved by the %cmanager`, COLORS.green, COLORS.white);
+    } else {
+      console.log('%cManager %cis passing request to the next approver', COLORS.white, COLORS.orange);
+      this.next(amount);
+    }
   }
 }
 
 class Director extends BaseApprover {
-  // TODO: Implementar el método approveRequest si el monto
+  override approveRequest(amount: number): void {
+    console.log(`%c${amount} approved by the %cdirector`, COLORS.green, COLORS.purple);
+  }
 }
 
 // 4. Código Cliente para probar la cadena de responsabilidad
